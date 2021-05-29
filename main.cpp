@@ -1,64 +1,41 @@
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
-//GLEW
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 
-#include "global.h"
 #include "triangle.h"
 #include "shader.h"
+#include "scene.h"
+
+const int WIDTH = 1200,  HEIGHT = 600;
 
 int main(){
-//Initialise the GLFW
-    if ( !glfwInit() ){
-        printf("GLFW initialisation failed");
-        glfwTerminate();
-        return 1;
-    }
-    
-    //setup the GLFW window properties
-    // OpenGl version
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-    GLFWwindow *mainWindow = glfwCreateWindow(WIDTH, HEIGHT, "Test Window", NULL, NULL);
-    if (!mainWindow){
-        printf("GLFLW window creation is failed");
-        glfwTerminate();
-        return 1;
-    }
-
-    //Set contxt for GLEW to use
-    glfwMakeContextCurrent(mainWindow);
-
-    //Allow modern extension features
-    glewExperimental = GL_TRUE;
-
-    if (glewInit() != GLEW_OK){
-        printf("GLEW initialization failed");
-        glfwDestroyWindow(mainWindow);
-        glfwTerminate();
-        return 1;
-    }
-
+    Scene scene;
+    scene.init();
     createTriangle();
     glBindVertexArray(VAO);
-    Shader sh("shader.vs", "shader.fs");
+    Shader sh("./shader.vs", "./shader.fs");
 
-    while(!glfwWindowShouldClose(mainWindow)){
+    while(!scene.should_close()){
         glfwPollEvents();
         glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT);
         
         sh.use();
         glDrawArrays(GL_TRIANGLES, 0, 3);
-
-        glfwSwapBuffers(mainWindow);
+        
+        scene.swap_buffers();
 
     }
 
     return 0;
 }
+
+/* Pseudocode
+ *
+ * Initialize the scene
+ * make the shape
+ * Add the shape to the scene
+ * Initialize the shader 
+ * start the loop
+ * Add mouse events
+ */

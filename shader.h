@@ -44,9 +44,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath){
     const char* vShaderCode = vertexCode.c_str();
     const char* fShaderCode = fragmentCode.c_str();
 
-    unsigned int vertex, fragment;
-    int success;
-    char infoLog[512];
+
 
     ID = glCreateProgram();
 
