@@ -1,7 +1,4 @@
-# mathlab
-
-To run, 
-
+# MathLab
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -54,7 +51,7 @@ brew install glew
 ```bash
 sh compile.sh
 ```
-
+![](assets/test_image.png?raw=true)
 <!-- ROADMAP -->
 ## Roadmap
 
