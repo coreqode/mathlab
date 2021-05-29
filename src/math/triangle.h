@@ -1,11 +1,14 @@
 #ifndef CREATE_TRIANGLE_H
 #define CREATE_TRIANGLE_H
 
-#include "global.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include "../global.h"
 
-void createTriangle(){
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
+unsigned int VBO;
+void create_triangle(VAO &vao){
+    vao.gen_vertex_array();
+    vao.bind_vertex_array();
 
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -18,8 +21,7 @@ void createTriangle(){
     glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    glBindVertexArray(0);
+    vao.unbind_vertex_array();
 }
 
 #endif

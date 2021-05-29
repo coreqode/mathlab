@@ -2,18 +2,23 @@
 #include <string.h>
 #include <iostream>
 
-#include "triangle.h"
-#include "shader.h"
-#include "scene.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#include "util/vao.h"
+#include "math/triangle.h"
+#include "shader/shader.h"
+#include "scene/scene.h"
 
 const int WIDTH = 1200,  HEIGHT = 600;
 
 int main(){
     Scene scene;
     scene.init();
-    createTriangle();
-    glBindVertexArray(VAO);
-    Shader sh("./shader.vs", "./shader.fs");
+    VAO vao;
+    create_triangle(vao);
+    vao.bind_vertex_array();
+    Shader sh("src/data/shader.vs", "src/data/shader.fs");
 
     while(!scene.should_close()){
         glfwPollEvents();
