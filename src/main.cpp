@@ -6,41 +6,23 @@
 #include <GLFW/glfw3.h>
 
 #include "util/vao.h"
+#include "util/vbo.h"
 #include "math/triangle.h"
-#include "shader/shader.h"
 #include "scene/scene.h"
 
-const int WIDTH = 1200,  HEIGHT = 600;
+const float vertices[] = {
+    -1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+    1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+    0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f
+};
 
 int main(){
     Scene scene;
     scene.init();
     VAO vao;
-    create_triangle(vao);
+    VBO vbo;
+    create_triangle(vertices, sizeof(vertices),  vao, vbo);
     vao.bind_vertex_array();
-    Shader sh("src/data/shader.vs", "src/data/shader.fs");
-
-    while(!scene.should_close()){
-        glfwPollEvents();
-        glClearColor(0, 0, 0, 1);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        sh.use();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        
-        scene.swap_buffers();
-
-    }
-
+    scene.render();
     return 0;
 }
-
-/* Pseudocode
- *
- * Initialize the scene
- * make the shape
- * Add the shape to the scene
- * Initialize the shader 
- * start the loop
- * Add mouse events
- */

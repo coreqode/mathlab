@@ -30,9 +30,24 @@ bool Scene::init(const int WIDTH, const int HEIGHT ){
     return true;
 }
 
-void Scene::swap_buffers(){
+inline void Scene::swap_buffers(){
         glfwSwapBuffers(this->main_window);
 }
-bool Scene::should_close(){
+inline bool Scene::should_close(){
     return glfwWindowShouldClose(this->main_window) ;
 }
+
+void Scene::render(){
+     Shader sh("../src/data/shader.vs", "../src/data/shader.fs");
+    while(!this->should_close()){
+        glfwPollEvents();
+        glClearColor(0, 0, 0, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
+        
+        sh.use();
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        
+        this->swap_buffers();
+    }
+}
+
