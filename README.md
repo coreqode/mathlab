@@ -36,7 +36,7 @@ You need to have C++11 and OpenGL 3.3 in your system. It's currently tested over
 
 ### Prerequisites
 
-For mac, OpenGL framework is already installed. 
+For mac, OpenGL framework is already installed. You just need to install glfw3 and glew
 ```sh
 brew install glfw3
 brew install glew
@@ -46,7 +46,12 @@ brew install glew
 ## Usage
 
 ```bash
-sh compile.sh
+git clone https://github.com/coreqode/mathlab.git
+cd mathlab
+mkdir build && cd build
+cmake ..
+make
+./main
 ```
 ![](assets/test_image.png?raw=true)
 <!-- ROADMAP -->
