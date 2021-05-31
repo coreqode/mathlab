@@ -37,8 +37,8 @@ inline bool Scene::should_close(){
     return glfwWindowShouldClose(this->main_window) ;
 }
 
-void Scene::render(){
-     Shader sh("../src/data/shader.vs", "../src/data/shader.fs");
+void Scene::render(const char* v, const char* f , bool path){
+    Shader sh(v, f, path);
     while(!this->should_close()){
         glfwPollEvents();
         glClearColor(0, 0, 0, 1);

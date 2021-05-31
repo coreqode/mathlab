@@ -1,36 +1,40 @@
 #include "shader.h"
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath){
+Shader::Shader(const char* vertexPath, const char* fragmentPath, bool path){
     std::string vertexCode;
     std::string fragmentCode;
-    std::ifstream vShaderFile;
-    std::ifstream fShaderFile;
+    if (path){
+        std::ifstream vShaderFile;
+        std::ifstream fShaderFile;
 
-    vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+        vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+        fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
-    try{
-        vShaderFile.open(vertexPath);
-        fShaderFile.open(fragmentPath);
-        std::stringstream vShaderStream, fShaderStream;
+        try{
+            vShaderFile.open(vertexPath);
+            fShaderFile.open(fragmentPath);
+            std::stringstream vShaderStream, fShaderStream;
 
-        vShaderStream << vShaderFile.rdbuf();
-        fShaderStream << fShaderFile.rdbuf();
+            vShaderStream << vShaderFile.rdbuf();
+            fShaderStream << fShaderFile.rdbuf();
 
-        vShaderFile.close();
-        fShaderFile.close();
+            vShaderFile.close();
+            fShaderFile.close();
 
-        vertexCode = vShaderStream.str();
-        fragmentCode = fShaderStream.str();
+            vertexCode = vShaderStream.str();
+            fragmentCode = fShaderStream.str();
+        }
+        catch(std::ifstream::failure e){
+            std::cout << "ERROR::SHADER::ENTERED FILE PATH NOT SUCCESSFULLY READ" << std::endl;
+        }
     }
-    catch(std::ifstream::failure e){
-        std::cout << "ERROR::SHADER::ENTERED FILE PATH NOT SUCCESSFULLY READ" << std::endl;
-    }
-    const char* vShaderCode = vertexCode.c_str();
-    const char* fShaderCode = fragmentCode.c_str();
+    const char* vShaderCode(path ? vertexCode.c_str() : vertexPath);
+    const char* fShaderCode(path ? fragmentCode.c_str() : fragmentPath);
 
+    this->compile_shaders(vShaderCode, fShaderCode);
+}
 
-
+void Shader::compile_shaders(const char* vShaderCode, const char* fShaderCode){
     ID = glCreateProgram();
 
     if (!ID){

@@ -12,7 +12,7 @@ class Scene{
         bool init(const int = 800, const int = 600);
         inline bool should_close();
         inline void swap_buffers();
-        void render();
+        void render(const char* v, const char* f, bool path = false);
     
     private:
         GLFWwindow *main_window;
