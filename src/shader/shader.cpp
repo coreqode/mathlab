@@ -85,3 +85,7 @@ void Shader::addShader(unsigned int program, const char* shaderCode, GLenum shad
 void Shader::use(){
     glUseProgram(this->ID);
 }
+
+unsigned int Shader::get_id(){
+    return this->ID;
+}

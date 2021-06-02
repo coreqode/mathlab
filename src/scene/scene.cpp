@@ -37,15 +37,16 @@ inline bool Scene::should_close(){
     return glfwWindowShouldClose(this->main_window) ;
 }
 
-void Scene::render(const char* v, const char* f , bool path){
-    Shader sh(v, f, path);
+
+void Scene::render(Shader &sh, array_type line_type, float color[4], const char* loc){
     while(!this->should_close()){
         glfwPollEvents();
         glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT);
-        
         sh.use();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        int vertex_color_location = glGetUniformLocation(sh.get_id(), loc);
+        glUniform4f(vertex_color_location, color[0], color[1], color[2], color[3]);
+        glDrawArrays(line_type, 0, 2);
         
         this->swap_buffers();
     }
