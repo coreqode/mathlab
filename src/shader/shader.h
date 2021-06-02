@@ -7,15 +7,19 @@
 #include <sstream>
 #include <iostream>
 
-class Shader{
-    public:
-        Shader(const char* vertexPath, const char* fragmentPath, bool path);
-        void compile_shaders(const char* vShaderCode, const char* fShaderCode);
-        void addShader(unsigned int program, const char* shaderCode, GLenum shaderType);
-        void use();
-        unsigned int get_id();
-    private:
-        unsigned int ID;
+namespace gl{
 
-};
+    class Shader{
+        public:
+            Shader(const char* vertexPath, const char* fragmentPath, bool path);
+            void compile_shaders(const char* vShaderCode, const char* fShaderCode);
+            void addShader(unsigned int program, const char* shaderCode, GLenum shaderType);
+            void use();
+            unsigned int get_id();
+        private:
+            unsigned int ID;
+
+    };
+
+} //namespace ending
 #endif

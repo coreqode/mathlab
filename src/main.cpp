@@ -5,10 +5,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "util/vao.h"
-#include "util/vbo.h"
-#include "math/triangle.h"
-#include "math/line.h"
+#include "util/vertex_array.h"
+#include "util/vertex_buffer.h"
 #include "scene/scene.h"
 
 const char *v_shader_code = "                                      \n\
@@ -37,20 +35,19 @@ int main(){
     };
     
     //Initialize the scene
-    Scene scene;
+    gl::Scene scene;
     scene.init();
 
-    //Initialize the VAO and VBO
-    VAO vao;
-    VBO vbo;
-    
     //create line
-    create_line(vertices, sizeof(vertices),  vao, vbo);
+    gl::VertexBuffer line_buffer;
+    gl::VertexArray line;
+    line.BindAttribute(1, line_buffer, vertices, sizeof(vertices));
+    line.BindVertexArray();
 
     //if defined shader code 
+
     bool path = false;
-    vao.bind_vertex_array();
-    Shader sh(v_shader_code, f_shader_code, path);
+    gl::Shader sh(v_shader_code, f_shader_code, path);
 
     //if shader code is defined in separate file
     //bool path = true;
@@ -58,6 +55,6 @@ int main(){
     
     //Render the scene
     float color[4] = {1.0f, 0.2, 0.3f, 0.0f};
-    scene.render(sh, line, color, "ourColor" );
+    scene.render(sh, gl::primitive::line, color, "ourColor" );
     return 0;
 }
